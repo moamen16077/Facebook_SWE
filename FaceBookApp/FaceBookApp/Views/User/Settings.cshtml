@@ -1,0 +1,68 @@
+﻿@{
+    ViewBag.Title = "Settings";
+}
+
+@model FaceBookApp.Models.User
+@Html.Partial("_NavBar", Model)
+@Html.Partial("_SideBar", Model)
+
+<h2>Settings</h2>
+
+@using (Html.BeginForm("EditAcc", "User"))
+{
+
+    <div class="id_hide">
+        @Html.LabelFor(l => l.id)
+        @Html.TextBoxFor(l => l.id)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(l => l.firstName)
+        @Html.TextBoxFor(l => l.firstName, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(l => l.lastName)
+        @Html.TextBoxFor(l => l.lastName, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(l => l.country)
+        @Html.TextBoxFor(l => l.country, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(l => l.city)
+        @Html.TextBoxFor(l => l.city, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(l => l.mobileNo)
+        @Html.TextBoxFor(l => l.mobileNo, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(l => l.email)
+        @Html.TextBoxFor(l => l.email, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(l => l.password)
+        @Html.TextBoxFor(l => l.password, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(l => l.profileImage)
+        @Html.TextBoxFor(l => l.profileImage, new { @class = "form-control", @type = "file" })
+    </div>
+
+    <button type="submit" class="btn btn-success">Edit Info</button>
+
+
+
+
+}
+<style>
+    .id_hide {
+        display: none;
+    }
+</style>

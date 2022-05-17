@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewBag.Title = "FailedLogin";
+
+}
+@model FaceBookApp.Models.User
+
+<h2>Log in</h2>
+<h4 id="loginfailed" >Login failed, please make sure of your log-in information.</h4>
+
+
+@using (Html.BeginForm("Authorize", "User"))
+{
+
+    <div class="form-group">
+        @Html.LabelFor(l => l.email)
+        @Html.TextBoxFor(l => l.email, new { @class = "form-control", @type = "email", required = "required" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(l => l.password)
+        @Html.TextBoxFor(l => l.password, new { @class = "form-control", required = "required" })
+    </div>
+
+
+    <button type="submit" class="btn btn-success">Login</button>
+    <button type="reset" class="btn btn-default">Reset</button>
+
+}
+<br />
+@Html.ActionLink("Don't have an account? Create account.", "CreateAccount", "User")
+
+<style>
+    #loginfailed{
+        color: red;
+    }
+</style>
+

@@ -1,0 +1,186 @@
+﻿
+@{
+    ViewBag.Title = "MyProfilePage";
+}
+
+@model FaceBookApp.ViewModels.ProfileViewModel
+
+@Html.Partial("_NavBar", Model.User.user)
+@Html.Partial("_SideBar", Model.User.user)
+
+
+<h2>@Model.User.user.firstName  @Model.User.user.lastName</h2>
+
+
+
+    <br />
+    
+    <br />
+
+@for (var j = @Model.User.posts.Count - 1; j >= 0; j--)
+{
+    <div class="container">
+        <div class="well">
+            <div class="media">
+                <a class="pull-left" href="#">
+                    <img class="media-object" src="http://placekitten.com/150/150"> <!--Profie pic-->
+                </a>
+                <div class="media-body">
+                    <h4 class="media-heading">   @Model.User.user.firstName  @Model.User.user.lastName</h4>
+
+                    <p>
+                        @Model.User.posts[j].content
+                    </p>
+
+                    <ul class="list-inline list-unstyled">
+                        <li><span><i class="glyphicon glyphicon-thumbs-up"></i>  @Model.User.posts[j].likes likes </span></li>
+                        <li>|</li>
+                        <li><span><i class="glyphicon glyphicon-thumbs-down"></i>  @Model.User.posts[j].dislikes dislikes </span></li>
+                    </ul>
+                    <button class="btn btn-primary like" id=@Model.User.posts.ElementAt(j).id>Like</button>
+                    <button class="btn btn-primary dislike " id=@Model.User.posts.ElementAt(j).id>Dislike</button>
+                    @using (Html.BeginForm("addComment_myprof", "Post"))
+                    {
+                        <div class="hiden">
+                            @Html.LabelFor(l => l.comment.author)
+                            @Html.TextBoxFor(l => l.comment.author, new { @Value = Model.User.user.firstName + " " + Model.User.user.lastName })
+                        </div>
+                        <div class="hiden">
+                            @Html.LabelFor(l => l.comment.Id)
+                            @Html.TextBoxFor(l => l.comment.Id, new { @Value = Model.User.user.id })
+                        </div>
+                        <div class="hiden">
+                            @Html.LabelFor(l => l.comment.PostNum)
+                            @Html.TextBoxFor(l => l.comment.PostNum, new { @Value = Model.User.posts[j].id })
+                        </div>
+
+                        @Html.LabelFor(l => l.comment.Text, new { @Class = "hiden" })
+                        @Html.TextBoxFor(l => l.comment.Text)
+
+                        <button type="submit" class="btn btn-primary">add comment</button>
+
+
+                    }
+                    <br />
+                    <i class="glyphicon glyphicon-comment"></i> <span>Comment Section</span>
+                    @{
+                        if (Model.comments != null)
+                        {
+                            foreach (var m in Model.comments)
+                            {
+                                if (m.PostNum == Model.User.posts[j].id)
+                                {
+                                    <h5>@m.author says:</h5>
+                                    <p>@m.Text</p>
+
+
+                                }
+                            }
+                        }
+                    }
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+
+
+@section scripts{
+
+    @Scripts.Render("~/bundles/jquery")
+
+    <script>
+
+
+        $(document).ready(function () {
+
+
+            $(document).ready(function () {
+                $('.like').click(function () {
+                    var button = $(this)
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/Post/likeAjax",
+                        data: { id: button.attr("id") },
+                        success: function () {
+
+
+                            alert("post liked");
+                            button.remove();
+
+                        },
+
+                        failure: function () {
+
+                            alert("failed")
+
+                        },
+
+                        error: function () {
+
+                            alert("error")
+                        }
+
+                    })
+
+
+                });
+
+            });
+
+
+        });
+        $(document).ready(function () {
+
+
+            $(document).ready(function () {
+                $('.dislike').click(function () {
+                    var button = $(this)
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/Post/dislikeAjax",
+                        data: { id: button.attr("id") },
+                        success: function () {
+
+
+                            alert("post disliked");
+                            button.remove();
+
+                        },
+
+                        failure: function () {
+
+                            alert("failed")
+
+                        },
+
+                        error: function () {
+
+                            alert("error")
+                        }
+
+                    })
+
+
+                });
+
+            });
+
+
+        });
+
+
+    </script>
+}
+
+<style>
+    .hiden {
+        display: none;
+    }
+</style>
